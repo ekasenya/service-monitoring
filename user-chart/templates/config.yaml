@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-config-helm
+data:
+  DB_HOST: {{ printf "%s" (include "postgresql.fullname" .) }}
+  DB_PORT: {{ printf "%s" .Values.postgresql.service.port | quote }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: user-secret-helm
+type: Opaque
+data:
+  DB_NAME:  {{ printf "%s" .Values.postgresql.postgresqlDatabase | b64enc | quote }}
+  DB_USER: {{ printf "%s" .Values.postgresql.postgresqlUsername  | b64enc | quote }}
+  DB_PASSWORD: {{ printf "%s" .Values.postgresql.postgresqlPassword  | b64enc | quote }}

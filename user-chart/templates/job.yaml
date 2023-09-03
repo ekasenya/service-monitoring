@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: user-service-db-migration
+spec:
+  backoffLimit: 1
+  template:
+    spec:
+      initContainers:
+        - name: check-db-ready
+          image: postgres:latest
+          env:
+            - name: POSTGRES_HOST
+              value: {{ include "postgresql.fullname" . | quote }}
+            - name: POSTGRES_PORT
+              value: {{ .Values.postgresql.service.port | quote }}
+          command:
+            - sh
+            - "-c"
+            - |
+              until pg_isready -h $POSTGRES_HOST  -p  $POSTGRES_PORT; 
+              do echo waiting for database; sleep 2; done;
+      containers:
+      - name: user-migrations
+        image: ekasenya/user-app:v1.3
+        command: ["alembic", "upgrade", "head"]
+        env:
+          - name: DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: user-config-helm
+                key: DB_HOST
+          - name: DB_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: user-config-helm
+                key: DB_PORT
+        envFrom:
+          - configMapRef:
+              name: user-config-helm
+          - secretRef:
+              name: user-secret-helm
+      restartPolicy: {{ .Values.job.restartPolicy }}

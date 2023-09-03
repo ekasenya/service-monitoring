@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: user-migrations
+spec:
+  template:
+    spec:
+      containers:
+      - name: user-migrations
+        image: ekasenya/user-app:v1.3
+        command: ["alembic", "upgrade", "head"]
+        env:
+          - name: DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: user-config
+                key: DB_HOST
+          - name: DB_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: user-config
+                key: DB_PORT
+        envFrom:
+          - configMapRef:
+              name: user-config
+          - secretRef:
+              name: user-secret
+      restartPolicy: OnFailure

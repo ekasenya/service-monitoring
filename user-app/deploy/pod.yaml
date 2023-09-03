@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: user-app
+  labels:
+    app: user-app
+spec:
+  containers:
+  - name: user-app
+    image: ekasenya/user-app:v1.1
+    ports:
+      - containerPort: 8000
+    env:
+      - name: DB_HOST
+        valueFrom:
+          configMapKeyRef:
+            name: user-config
+            key: DB_HOST
+      - name: DB_PORT
+        valueFrom:
+          configMapKeyRef:
+            name: user-config
+            key: DB_PORT
+    envFrom:
+      - configMapRef:
+          name: user-config
+      - secretRef:
+          name: user-secret

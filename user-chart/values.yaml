@@ -1,0 +1,23 @@
+replicaCount: 2
+
+image: ekasenya/user-app:v1
+
+service:
+  type: NodePort
+  port: 9000
+
+postgresql:
+  enabled: true
+  postgresqlUsername: user
+  postgresqlPassword: user
+  postgresqlDatabase: user-db
+  service:
+      port: "5432"
+
+job:
+  restartPolicy: OnFailure
+
+ingress:
+  host:  arch.homework
+  path: /user-service(/|$)(.*)
+  port: 9000
