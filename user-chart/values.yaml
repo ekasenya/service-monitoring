@@ -1,6 +1,6 @@
 replicaCount: 2
 
-image: ekasenya/user-app:v1
+image: ekasenya/user-app:v3.1
 
 service:
   type: NodePort
