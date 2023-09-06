@@ -22,7 +22,7 @@ spec:
               do echo waiting for database; sleep 2; done;
       containers:
       - name: user-migrations
-        image: ekasenya/user-app:v1.3
+        image: "{{ .Values.image }}"
         command: ["alembic", "upgrade", "head"]
         env:
           - name: DB_HOST
