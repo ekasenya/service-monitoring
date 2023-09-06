@@ -34,6 +34,8 @@ spec:
               containerPort: 8000
               protocol: TCP
           env:
+            - name: APP_NAME
+              value: {{ .Values.app_name }}
             - name: DB_HOST
               valueFrom:
                 configMapKeyRef:

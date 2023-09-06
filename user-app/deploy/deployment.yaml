@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: user-app
-          image: ekasenya/user-app:v3.3
+          image: ekasenya/user-app:v3.5
           ports:
             - name: web
               containerPort: 8000

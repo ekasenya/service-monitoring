@@ -1,6 +1,7 @@
-replicaCount: 2
+app_name: user-service
+image: ekasenya/user-app:v3.5
 
-image: ekasenya/user-app:v3.3
+replicaCount: 2
 
 service:
   type: NodePort
