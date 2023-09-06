@@ -5,6 +5,8 @@ import uvicorn
 from fastapi import FastAPI, Depends, status, Response
 from sqlalchemy.exc import IntegrityError
 
+from prometheus_client import generate_latest
+
 from app.core.deps import get_user_repository
 from app.repositories.user_repository import UserRepository
 from app.schemas.user import UserInfo, User, UserUpdate
@@ -28,6 +30,11 @@ async def root():
 @app.get('/health')
 async def check_health():
     return {"status": "OK"}
+
+
+@app.route('/metrics')
+def metrics():
+    return generate_latest()
 
 
 @app.post('/user', response_model=User, status_code=status.HTTP_201_CREATED)
