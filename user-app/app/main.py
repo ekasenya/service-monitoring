@@ -1,13 +1,14 @@
 import os
+import random
+import time
 from typing import Optional
 
 import uvicorn
 from fastapi import FastAPI, Depends, status, Response
 from sqlalchemy.exc import IntegrityError
 
-from app.middleware.prometheus import metrics, PrometheusMiddleware
-
 from app.core.deps import get_user_repository
+from app.middleware.prometheus import metrics, PrometheusMiddleware
 from app.repositories.user_repository import UserRepository
 from app.schemas.user import UserInfo, User, UserUpdate
 
@@ -34,6 +35,18 @@ async def root():
 @app.get('/health')
 async def check_health():
     return {"status": "OK"}
+
+
+@app.get("/random_status")
+async def random_status(response: Response):
+    response.status_code = random.choice([200, 200, 300, 400, 500, 501, 502, 503])
+    return {"path": "/random_status"}
+
+
+@app.get("/random_sleep")
+async def random_sleep(response: Response):
+    time.sleep(random.randint(0, 200) * 0.001)
+    return {"path": "/random_sleep"}
 
 
 @app.post('/user', response_model=User, status_code=status.HTTP_201_CREATED)
