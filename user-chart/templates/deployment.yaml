@@ -52,11 +52,11 @@ spec:
           livenessProbe:
             httpGet:
               path: /
-              port: http
+              port: web
           readinessProbe:
             httpGet:
               path: /
-              port: http
+              port: web
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
