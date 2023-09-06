@@ -1,6 +1,6 @@
 replicaCount: 2
 
-image: ekasenya/user-app:v3.1
+image: ekasenya/user-app:v3.2
 
 service:
   type: NodePort
@@ -21,3 +21,7 @@ ingress:
   host:  arch.homework
   path: /user-service(/|$)(.*)
   port: 9000
+
+metrics:
+  serviceMonitor:
+    enabled: true
