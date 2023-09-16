@@ -43,14 +43,11 @@ class PrometheusMiddleware(BaseHTTPMiddleware):
             return await call_next(request)
 
         status_code = None
-        start_time = time.perf_counter()
         try:
             response = await call_next(request)
             status_code = response.status_code
 
-            end_time = time.perf_counter()
-
-            request_latency = start_time - end_time
+            request_latency = time.time() - start_time
             METRICS_REQUEST_LATENCY.labels(request.method, path).observe(
                 request_latency
             )
