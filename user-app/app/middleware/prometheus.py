@@ -43,6 +43,7 @@ class PrometheusMiddleware(BaseHTTPMiddleware):
             return await call_next(request)
 
         status_code = None
+        start_time = time.time()
         try:
             response = await call_next(request)
             status_code = response.status_code
