@@ -27,6 +27,14 @@ config = {
 }
 
 
+def _return_random_500(response: Response):
+    if random.randrange(1, 50) == 1:
+        response.status_code = random.choice([200, 200, 300, 400, 500, 501, 502, 503])
+        return {"path": "/random_status"}
+
+
+
+
 @app.get('/')
 async def root():
     return {"message": "Hi there"}
@@ -35,12 +43,6 @@ async def root():
 @app.get('/health')
 async def check_health():
     return {"status": "OK"}
-
-
-@app.get("/random_status")
-async def random_status(response: Response):
-    response.status_code = random.choice([200, 200, 300, 400, 500, 501, 502, 503])
-    return {"path": "/random_status"}
 
 
 @app.get("/random_sleep")
@@ -55,6 +57,10 @@ async def create_user(
         response: Response,
         user_repository: UserRepository = Depends(get_user_repository),
 ):
+    if random.randrange(1, 50) == 1:
+        response.status_code = random.choice([500, 501, 502, 503])
+        return
+
     try:
         return await user_repository.create_user(
             user_name=user_info.user_name,
@@ -72,6 +78,10 @@ async def get_user_by_id(
         response: Response,
         user_repository: UserRepository = Depends(get_user_repository),
 ):
+    if random.randrange(1, 50) == 1:
+        response.status_code = random.choice([500, 501, 502, 503])
+        return
+
     user = await user_repository.get_user_by_id(
         user_id=user_id
     )
@@ -88,6 +98,10 @@ async def get_user_by_id(
         response: Response,
         user_repository: UserRepository = Depends(get_user_repository),
 ):
+    if random.randrange(1, 50) == 1:
+        response.status_code = random.choice([500, 501, 502, 503])
+        return
+
     user = await user_repository.delete_user(
         user_id=user_id
     )
@@ -105,6 +119,10 @@ async def update_user_by_id(
         response: Response,
         user_repository: UserRepository = Depends(get_user_repository),
 ):
+    if random.randrange(1, 50) == 1:
+        response.status_code = random.choice([500, 501, 502, 503])
+        return
+
     user = await user_repository.update_user(
         user_id=user_id,
         first_name=user_update.first_name,
