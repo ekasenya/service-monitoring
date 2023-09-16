@@ -18,13 +18,13 @@ INFO = Gauge(
 )
 
 METRICS_REQUEST_LATENCY = Histogram(
-    "app_request_latency_seconds", "Application Request Latency", ["method", "endpoint"]
+    "app_request_latency_seconds", "Application Request Latency", ["method", "path"]
 )
 
 METRICS_REQUEST_COUNT = Counter(
     "app_request_count",
     "Application Request Count",
-    ["method", "endpoint", "http_status"],
+    ["method", "path", "http_status"],
 )
 
 METRICS_INFO = Info("app_version", "Application Version")
