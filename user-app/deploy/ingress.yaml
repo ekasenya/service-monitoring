@@ -17,4 +17,4 @@ spec:
               service:
                 name: user-service
                 port:
-                  number: 9000
+                  number: 9099

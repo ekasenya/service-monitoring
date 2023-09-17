@@ -7,6 +7,6 @@ spec:
     app: user-app
   ports:
     - protocol: TCP
-      port: 9000
+      port: 9099
       targetPort: web
   type: NodePort
