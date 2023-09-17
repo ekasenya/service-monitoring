@@ -1,11 +1,11 @@
 app_name: user-service
-image: ekasenya/user-app:v3.5
+image: ekasenya/user-app:v3.9
 
 replicaCount: 2
 
 service:
   type: NodePort
-  port: 9000
+  port: 9099
 
 postgresql:
   enabled: true
@@ -21,7 +21,7 @@ job:
 ingress:
   host:  arch.homework
   path: /user-service(/|$)(.*)
-  port: 9000
+  port: 9099
 
 metrics:
   serviceMonitor:
