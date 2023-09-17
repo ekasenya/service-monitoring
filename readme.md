@@ -18,12 +18,13 @@ Install prometheus
 Configure ingress for exporting metrics
 
 ``
-helm upgrade nginx ingress-nginx \
---repo https://kubernetes.github.io/ingress-nginx \
---namespace m \
---set controller.metrics.enabled=true \
---set-string controller.podAnnotations."prometheus\.io/scrape"="true" \
---set-string controller.podAnnotations."prometheus\.io/port"="10254"
+helm upgrade nginx ingress-nginx 
+--repo https://kubernetes.github.io/ingress-nginx
+--namespace m 
+--set controller.metrics.enabled=true 
+--set-string controller.podAnnotations."prometheus\.io/scrape"="true" 
+--set-string controller.podAnnotations."prometheus\.io/port"="10254" 
+--set controller.metrics.serviceMonitor.additionalLabels.release="prometheus"
 ``
 
 ### Dashboard examples
